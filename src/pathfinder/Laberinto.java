@@ -9,9 +9,29 @@ import java.util.ArrayList;
 
 public class Laberinto {
 
-	Piso[] pisos;
+	ArrayList<Piso> pisos;
+
+	Coordenada inicio, objetivo;
 
 	int nPisos, filas, columnas;
+
+	public Coordenada getInicio() {
+		return inicio;
+	}
+
+	public void setInicio(Coordenada inicio) {
+		this.inicio = inicio;
+		getCeldaAtCoord(inicio).setTipo(Celda.INICIO);
+	}
+
+	public Coordenada getObjetivo() {
+		return objetivo;
+	}
+
+	public void setObjetivo(Coordenada objetivo) {
+		this.objetivo = objetivo;
+		getCeldaAtCoord(objetivo).setTipo(Celda.OBJETIVO);
+	}
 
 	public Laberinto(String nombreFichero) {
 		leerFichero(nombreFichero);
@@ -23,34 +43,9 @@ public class Laberinto {
 		this.filas = filas;
 		this.columnas = columnas;
 
-		pisos = new Piso[nPisos];
-		if (random) {
-			randomize();
-		} else {
-			initialize();
-		}
-	}
-
-	public void randomize() {
+		pisos = new ArrayList<Piso>();
 		for (int piso = 0; piso < nPisos; piso++) {
-			pisos[piso] = new Piso(filas, columnas);
-			for (int fila = 0; fila < filas; fila++) {
-				for (int columna = 0; columna < columnas; columna++) {
-					pisos[piso].setCelda(fila, columna,
-							new Celda(Math.random() <= 0.5 ? Celda.LIBRE : Celda.OBSTACULO, piso, fila, columna));
-				}
-			}
-		}
-	}
-
-	public void initialize() {
-		for (int piso = 0; piso < nPisos; piso++) {
-			pisos[piso] = new Piso(filas, columnas);
-			for (int fila = 0; fila < filas; fila++) {
-				for (int columna = 0; columna < columnas; columna++) {
-					pisos[piso].setCelda(fila, columna, new Celda(Celda.LIBRE, piso, fila, columna));
-				}
-			}
+			pisos.add(new Piso(filas, columnas, random));
 		}
 	}
 
@@ -66,9 +61,8 @@ public class Laberinto {
 		salida += columnas + "\n\n";
 
 		for (int piso = 0; piso < nPisos; piso++) {
-			salida += pisos[piso].toString();
+			salida += pisos.get(piso).toString();
 			salida += "\n";
-
 		}
 
 		return salida;
@@ -114,9 +108,9 @@ public class Laberinto {
 
 			columnas = Integer.parseInt(line.trim());
 
-			pisos = new Piso[nPisos];
+			pisos = new ArrayList<Piso>();
 			for (int i = 0; i < nPisos; i++) {
-				pisos[i] = new Piso(filas, columnas);
+				pisos.add(new Piso(filas, columnas));
 			}
 
 			for (int piso = 0; piso < nPisos; piso++) {
@@ -129,16 +123,15 @@ public class Laberinto {
 					}
 
 					String[] linea = line.split("\\s+");
-
 					if (linea.length != columnas) {
 						throw new IllegalArgumentException("Fichero mal definido");
 					}
 
 					for (int columna = 0; columna < linea.length; columna++) {
 
-						Celda newCelda = new Celda(linea[columna].charAt(0), piso, fila, columna);
+						Celda newCelda = new Celda(linea[columna].charAt(0));
 
-						pisos[piso].setCelda(fila, columna, newCelda);
+						pisos.get(piso).setCelda(fila, columna, newCelda);
 					}
 
 				}
@@ -156,11 +149,11 @@ public class Laberinto {
 	}
 
 	public Celda getCeldaAtCoord(Coordenada coord) {
-		return pisos[coord.piso].getCelda(coord.fila, coord.columna);
+		return pisos.get(coord.piso).getCelda(coord.fila, coord.columna);
 	}
 
 	public Celda getCeldaAt(int piso, int fila, int columna) {
-		return pisos[piso].getCelda(fila, columna);
+		return pisos.get(piso).getCelda(fila, columna);
 	}
 
 	public ArrayList<Coordenada> getSucesores(Coordenada coordenada) {
@@ -175,31 +168,75 @@ public class Laberinto {
 			int fCoord = coordenada.getFila() + coord[1];
 			int cCoord = coordenada.getColumna() + coord[2];
 
-			if (getCeldaAtCoord(coordenada).getTipo() != Celda.OBSTACULO && pCoord >= 0 && pCoord < nPisos
-					&& fCoord >= 0 && fCoord < filas && cCoord >= 0 && cCoord < columnas) {
+			Coordenada newCoord = new Coordenada(pCoord, fCoord, cCoord);
 
-				sucesores.add(getCeldaAt(pCoord, fCoord, cCoord).getCoordenada());
+			if (pCoord >= 0 && pCoord < nPisos && fCoord >= 0 && fCoord < filas && cCoord >= 0 && cCoord < columnas
+					&& getCeldaAtCoord(newCoord).getTipo() != Celda.OBSTACULO) {
+
+				System.out.println(pCoord + " " + fCoord + " " + cCoord);
+				sucesores.add(newCoord);
 			}
 		}
 
 		return sucesores;
 	}
 
+	public ArrayList<Coordenada> getVertices() {
+
+		ArrayList<Coordenada> vertices = new ArrayList<Coordenada>();
+
+		for (int piso = 0; piso < nPisos; piso++) {
+			for (int fila = 0; fila < fila; fila++) {
+				for (int columna = 0; columna < columnas; columna++) {
+					if (getCeldaAt(piso, fila, columna).getTipo() == Celda.LIBRE) {
+						vertices.add(new Coordenada(piso, fila, columna));
+					}
+				}
+			}
+		}
+
+		return vertices;
+
+	}
+	
+	public ArrayList<Coordenada> getAdjacentVertices() {
+
+		ArrayList<Coordenada> vertices = new ArrayList<Coordenada>();
+
+		for (int piso = 0; piso < nPisos; piso++) {
+			for (int fila = 0; fila < fila; fila++) {
+				for (int columna = 0; columna < columnas; columna++) {
+					if (getCeldaAt(piso, fila, columna).getTipo() == Celda.LIBRE) {
+						vertices.add(new Coordenada(piso, fila, columna));
+					}
+				}
+			}
+		}
+
+		return vertices;
+
+	}
+
 	public void dibujaCamino(ArrayList<Coordenada> camino) {
 		if (camino != null)
 			for (Coordenada coord : camino) {
-				getCeldaAtCoord(coord).setTipo(Celda.CAMINO);
+				if (coord != inicio && coord != objetivo)
+					getCeldaAtCoord(coord).setTipo(Celda.CAMINO);
 			}
 	}
 
-	public ArrayList<Coordenada> getSucesores(Celda celda) {
-		return getSucesores(celda.getCoordenada());
-	}
-
 	public static void main(String args[]) {
-		Laberinto l = new Laberinto("Laberintos/Laberinto1.lab");
-		l.dibujaCamino(Algoritmos.aStar(l, new Coordenada(0, 0, 0), new Coordenada(1, 0, 0)));
+		// Laberinto l = new Laberinto("Laberintos/Laberinto1.lab");
+		Laberinto l = new Laberinto(4, 5, 5, true);
+		// l.dibujaCamino(AStar.aStar(l, new Coordenada(0, 0, 0), new Coordenada(1, 0,
+		// 2)));
 
+		l.setInicio(new Coordenada(0, 0, 0));
+		l.setObjetivo(new Coordenada(3, 4, 4));
+
+		//l.dibujaCamino(DFS.dfs(l));
+		
+		l.dibujaCamino(camino);
 		Laberinto l2 = new Laberinto(5, 3, 4, true);
 
 		System.out.println(l);
