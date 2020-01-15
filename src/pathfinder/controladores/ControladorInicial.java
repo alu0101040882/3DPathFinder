@@ -43,6 +43,7 @@ public class ControladorInicial {
 			
 			Stage primaryStage = (Stage) mainPane.getScene().getWindow();
 			primaryStage.setTitle("Ultimate Videogame PathFinder Extreme 3000");
+			primaryStage.setResizable(true);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
@@ -86,6 +87,7 @@ public class ControladorInicial {
 			Stage primaryStage = (Stage) mainPane.getScene().getWindow();
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Ultimate Videogame PathFinder Extreme 3000");
+			primaryStage.setResizable(true);
 			primaryStage.show();
 		}
 	}

@@ -174,7 +174,7 @@ public class Laberinto {
 	}
 
 	public Celda getCeldaAtCoord(Coordenada coord) {
-		System.out.println(coord);
+		//System.out.println(coord);
 		return pisos.get(coord.piso).getCelda(coord.fila, coord.columna);
 	}
 
@@ -224,25 +224,26 @@ public class Laberinto {
 		return vertices;
 
 	}
-	
+
 	public ArrayList<Coordenada> getAdjacentVertices() {
 
 		ArrayList<Coordenada> vertices = new ArrayList<Coordenada>();
 
-		for (int piso = 0; piso < nPisos; piso++) {
-			for (int fila = 0; fila < fila; fila++) {
-				for (int columna = 0; columna < columnas; columna++) {
-					if (getCeldaAt(piso, fila, columna).getTipo() == Celda.LIBRE) {
-						vertices.add(new Coordenada(piso, fila, columna));
-					}
-				}
-			}
-		}
+		getAdjacentRecursive(inicio, vertices);
 
 		return vertices;
 
 	}
-	
+
+	public void getAdjacentRecursive(Coordenada verticeActual, ArrayList<Coordenada> vertices) {
+		for (Coordenada vertice : getSucesores(verticeActual)) {
+			if (!vertices.contains(vertice)) {
+				vertices.add(vertice);
+				getAdjacentRecursive(vertice, vertices);
+			}
+		}
+	}
+
 	public void dibujaCamino(ArrayList<Coordenada> camino) {
 		if (camino != null)
 			for (Coordenada coord : camino) {
@@ -253,15 +254,16 @@ public class Laberinto {
 
 	public static void main(String args[]) {
 		// Laberinto l = new Laberinto("Laberintos/Laberinto1.lab");
-		Laberinto l = new Laberinto(4, 5, 5, true);
+		Laberinto l = new Laberinto(6, 6, 6, true);
 		// l.dibujaCamino(AStar.aStar(l, new Coordenada(0, 0, 0), new Coordenada(1, 0,
 		// 2)));
 
-		l.setInicio(new Coordenada(0, 0, 0));
-		l.setObjetivo(new Coordenada(3, 4, 4));
-
-		//l.dibujaCamino(DFS.dfs(l));
 		
+		l.setInicio(new Coordenada(0, 0, 0));
+		l.setObjetivo(new Coordenada(5, 2, 2));
+
+		l.dibujaCamino(Dijkstra.dijkstra(l));
+System.out.println("apsdpsa");
 		Laberinto l2 = new Laberinto(5, 3, 4, true);
 
 		System.out.println(l);
