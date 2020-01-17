@@ -5,30 +5,32 @@ import java.util.HashSet;
 
 public class DFS {
 
-	public static ArrayList<Coordenada> dfs(Laberinto lab) {
-		
+	public static Solucion dfs(Laberinto lab) {
+
 		HashSet<Coordenada> visitados = new HashSet<>();
 		ArrayList<Coordenada> camino = new ArrayList<Coordenada>();
-		search(lab.getInicio(), lab.getObjetivo(), visitados, camino, lab);
-		System.out.println(camino);
-		return camino;
+		ArrayList<ArrayList<Coordenada>> nodosExpandidos = new ArrayList<ArrayList<Coordenada>>();
+		return search(lab.getInicio(), lab.getObjetivo(), visitados, camino, nodosExpandidos, lab);
+
 	}
 
-	public static void search(Coordenada source, Coordenada objetivo, HashSet<Coordenada> visitados,
-			ArrayList<Coordenada> camino, Laberinto lab) {
+	public static Solucion search(Coordenada source, Coordenada objetivo, HashSet<Coordenada> visitados,
+			ArrayList<Coordenada> camino, ArrayList<ArrayList<Coordenada>> nodosExpandidos, Laberinto lab) {
 
 		visitados.add(source);
 		camino.add(source);
 
+		nodosExpandidos.add(new ArrayList<Coordenada>());
 		for (Coordenada neighbor : lab.getSucesores(source)) {
-			System.out.println(lab.getSucesores(source));
+			nodosExpandidos.get(nodosExpandidos.size() - 1).add(neighbor);
 			if (neighbor == objetivo) {
 				camino.add(neighbor);
-				break;
+				return new Solucion(nodosExpandidos, camino);
 			} else if (!visitados.contains(neighbor)) {
-				search(neighbor, objetivo, visitados, camino, lab);
+				return search(neighbor, objetivo, visitados, camino,nodosExpandidos, lab);
 			}
 		}
-	}
 
+		return new Solucion(nodosExpandidos,camino);
+	}
 }

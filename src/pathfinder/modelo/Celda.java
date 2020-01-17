@@ -2,7 +2,7 @@ package pathfinder.modelo;
 
 public class Celda {
 
-	public static final char LIBRE = '_', OBSTACULO = 'O', CAMINO = 'X', INICIO = 'S' , OBJETIVO ='F';
+	public static final char LIBRE = '_', OBSTACULO = 'O', CAMINO = 'X', INICIO = 'S', OBJETIVO = 'F', EXPANDIDO = 'P';
 
 	private char tipo;
 

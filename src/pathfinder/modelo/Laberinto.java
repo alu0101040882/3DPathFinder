@@ -15,13 +15,40 @@ public class Laberinto {
 
 	int nPisos, filas, columnas;
 
+	char tipoInicio, tipoObjetivo;
+
 	public Coordenada getInicio() {
 		return inicio;
 	}
 
 	public void setInicio(Coordenada inicio) {
+		if (this.inicio != null) {
+			getCeldaAtCoord(this.inicio).setTipo(tipoInicio);
+		}
+
+		if (inicio != null) {
+			tipoInicio = getCeldaAtCoord(inicio).getTipo();
+
+			getCeldaAtCoord(inicio).setTipo(Celda.INICIO);
+		}
+
 		this.inicio = inicio;
-		getCeldaAtCoord(inicio).setTipo(Celda.INICIO);
+	}
+
+	public void setObjetivo(Coordenada objetivo) {
+
+		if (this.objetivo != null) {
+			getCeldaAtCoord(this.objetivo).setTipo(tipoObjetivo);
+		}
+
+		if (objetivo != null) {
+			tipoObjetivo = getCeldaAtCoord(objetivo).getTipo();
+
+			getCeldaAtCoord(objetivo).setTipo(Celda.OBJETIVO);
+		}
+
+		this.objetivo = objetivo;
+
 	}
 
 	public Coordenada getObjetivo() {
@@ -52,12 +79,8 @@ public class Laberinto {
 		this.columnas = columnas;
 	}
 
-	public void setObjetivo(Coordenada objetivo) {
-		this.objetivo = objetivo;
-		getCeldaAtCoord(objetivo).setTipo(Celda.OBJETIVO);
-	}
-
 	public Laberinto(String nombreFichero) {
+
 		leerFichero(nombreFichero);
 	}
 
@@ -162,7 +185,6 @@ public class Laberinto {
 				}
 
 			}
-			System.out.println();
 			br.close();
 
 		} catch (Exception e) {
@@ -174,7 +196,7 @@ public class Laberinto {
 	}
 
 	public Celda getCeldaAtCoord(Coordenada coord) {
-		//System.out.println(coord);
+		System.out.println(coord);
 		return pisos.get(coord.piso).getCelda(coord.fila, coord.columna);
 	}
 
@@ -244,10 +266,20 @@ public class Laberinto {
 		}
 	}
 
+	public void dibujaExpandidos(ArrayList<ArrayList<Coordenada>> nodosExpandidos) {
+		if (nodosExpandidos != null)
+			for (ArrayList<Coordenada> array : nodosExpandidos) {
+				for (Coordenada coord : array) {
+					if (!coord.equals(inicio) && !coord.equals(objetivo))
+						getCeldaAtCoord(coord).setTipo(Celda.EXPANDIDO);
+				}
+			}
+	}
+
 	public void dibujaCamino(ArrayList<Coordenada> camino) {
 		if (camino != null)
 			for (Coordenada coord : camino) {
-				if (coord != inicio && coord != objetivo)
+				if (!coord.equals(inicio) && !coord.equals(objetivo))
 					getCeldaAtCoord(coord).setTipo(Celda.CAMINO);
 			}
 	}
@@ -258,12 +290,12 @@ public class Laberinto {
 		// l.dibujaCamino(AStar.aStar(l, new Coordenada(0, 0, 0), new Coordenada(1, 0,
 		// 2)));
 
-		
 		l.setInicio(new Coordenada(0, 0, 0));
 		l.setObjetivo(new Coordenada(5, 2, 2));
 
-		l.dibujaCamino(Dijkstra.dijkstra(l));
-System.out.println("apsdpsa");
+		// l.dibujaExpandidos(Dijkstra.dijkstra(l).getNodosExpandidos());
+		l.dibujaCamino(DFS.dfs(l).getCamino());
+		System.out.println("apsdpsa");
 		Laberinto l2 = new Laberinto(5, 3, 4, true);
 
 		System.out.println(l);

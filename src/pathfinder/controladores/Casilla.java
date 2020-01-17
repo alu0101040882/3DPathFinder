@@ -13,6 +13,8 @@ import pathfinder.modelo.Coordenada;
 
 public class Casilla extends Pane {
 
+	double fSize = 0.1;
+	double fGap = 0.1;
 	int tipo;
 	Coordenada coordenada;
 
@@ -43,7 +45,9 @@ public class Casilla extends Pane {
 		flechaArriba = new Polygon();
 		flechaArriba.setFill(Color.AQUA);
 		flechaArriba.getPoints()
-				.addAll(new Double[] { getWidth() / 2 - 1, 0.0, 0.0, getHeight() / 2, getWidth(), getHeight() / 2,
+				.addAll(new Double[] { getWidth() / 2 - 1, fSize*getHeight(),
+						fSize*getWidth(), getHeight() / 2, 
+						(1-fSize)*getWidth(), getHeight() / 2,
 
 				});
 		getChildren().add(flechaArriba);
@@ -51,7 +55,9 @@ public class Casilla extends Pane {
 		widthProperty().addListener((obs, oldVal, newVal) -> {
 			flechaArriba.getPoints().clear();
 			flechaArriba.getPoints().addAll(
-					new Double[] { (double) newVal / 2 - 1, 0.0, 0.0, getHeight() / 2, (double) newVal, getHeight() / 2,
+					new Double[] { (double) newVal / 2 - 1,  fSize*getHeight(), 
+							fSize*(double) newVal, getHeight() / 2, 
+							(1-fSize)*(double) newVal, getHeight() / 2,
 
 					});
 		});
@@ -59,7 +65,9 @@ public class Casilla extends Pane {
 		heightProperty().addListener((obs, oldVal, newVal) -> {
 			flechaArriba.getPoints().clear();
 			flechaArriba.getPoints().addAll(
-					new Double[] { getWidth() / 2 - 1, 0.0, 0.0, (double) newVal / 2, getWidth(), (double) newVal / 2,
+					new Double[] { getWidth() / 2 - 1,  fSize*(double) newVal, 
+							fSize*getWidth(),(double) newVal / 2,
+							(1-fSize)*getWidth(), (double) newVal / 2,
 
 					});
 		});
@@ -68,25 +76,32 @@ public class Casilla extends Pane {
 	public void dibujaFlechaAbajo() {
 
 		flechaAbajo = new Polygon();
-		flechaAbajo.setFill(Color.BLUE);
+		flechaAbajo.setFill(Color.CHOCOLATE);
 		flechaAbajo.getPoints().addAll(
-				new Double[] { getWidth() / 2 - 1, getHeight(), 0.0, getHeight() / 2, getWidth(), getHeight() / 2,
+				new Double[] {
+						getWidth() / 2 - 1, getHeight()*(1-fSize),
+						getWidth()*fSize, getHeight() / 2, 
+						(1-fSize)*getWidth(), getHeight() / 2,
 
 				});
 		getChildren().add(flechaAbajo);
 
 		widthProperty().addListener((obs, oldVal, newVal) -> {
 			flechaAbajo.getPoints().clear();
-			flechaAbajo.getPoints().addAll(new Double[] { (double) newVal / 2 - 1, getHeight(), 0.0, getHeight() / 2,
-					(double) newVal, getHeight() / 2,
+			flechaAbajo.getPoints().addAll(new Double[] { 
+					(double) newVal / 2 - 1, getHeight()*(1-fSize),
+					fSize*(double) newVal, getHeight() / 2, 
+					(1-fSize)*(double) newVal, getHeight() / 2,
 
 			});
 		});
 
 		heightProperty().addListener((obs, oldVal, newVal) -> {
 			flechaAbajo.getPoints().clear();
-			flechaAbajo.getPoints().addAll(new Double[] { getWidth() / 2 - 1, getHeight(), 0.0, (double) newVal / 2,
-					getWidth(), (double) newVal / 2,
+			flechaAbajo.getPoints().addAll(new Double[] { 
+					getWidth() / 2 - 1, (double)newVal*(1-fSize),
+					fSize*getWidth(),(double) newVal / 2,
+					(1-fSize)*getWidth(), (double) newVal / 2,
 
 			});
 		});
@@ -119,6 +134,10 @@ public class Casilla extends Pane {
 			break;
 		case Celda.OBSTACULO:
 			setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+		//	getStyleClass().add("bg-obstaculo");
+			break;
+		case Celda.EXPANDIDO:
+			setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
 		//	getStyleClass().add("bg-obstaculo");
 			break;
 		}

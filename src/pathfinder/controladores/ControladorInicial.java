@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pathfinder.modelo.Laberinto;
 
@@ -16,12 +17,11 @@ public class ControladorInicial {
 	
 	public BorderPane mainPane;
 	
-	int largo = 700;
-	int ancho = 500;
+
 	public void handleCargarLaberinto() throws Exception {
 		FileChooser fileChooser = new FileChooser();
 
-		File file = fileChooser.showOpenDialog(null);
+		File file = fileChooser.showOpenDialog((Stage) mainPane.getScene().getWindow());
 
 		if (file != null) {
 
@@ -32,14 +32,19 @@ public class ControladorInicial {
 			FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("../vistas/MainScene.fxml"));
 			Parent parent2 = (Parent) fxmlLoader2.load();
 			
+
+			Scene scene = new Scene(parent2);
+			scene.getStylesheets().add(getClass().getResource("../vistas/application.css").toExternalForm());
+			
+			
 			ControladorPrincipal controller2 = fxmlLoader2.<ControladorPrincipal>getController();
 			
 			controller2.setLaberinto(laberinto);
 			controller2.cargaLaberinto();
 			controller2.setPisoActual(0);
 
-			Scene scene = new Scene(parent2,largo,ancho);
-			scene.getStylesheets().add(getClass().getResource("../vistas/application.css").toExternalForm());
+			
+			
 			
 			Stage primaryStage = (Stage) mainPane.getScene().getWindow();
 			primaryStage.setTitle("Ultimate Videogame PathFinder Extreme 3000");
@@ -64,9 +69,11 @@ public class ControladorInicial {
 		scene1.getStylesheets().add(getClass().getResource("../vistas/application.css").toExternalForm());
 		
 		Stage stage = new Stage();
+		
+		stage.initModality(Modality.APPLICATION_MODAL); 
 		stage.setScene(scene1);
 		stage.setResizable(false);
-		stage.setTitle("Opciones Laberinto");
+		stage.setTitle("New labyrinth options");
 		stage.showAndWait();
 		
 		if(controller1.getLaberinto()!=null) {
@@ -75,15 +82,16 @@ public class ControladorInicial {
 			FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("../vistas/MainScene.fxml"));
 			Parent parent2 = (Parent) fxmlLoader2.load();
 			
+			Scene scene = new Scene(parent2);
+			scene.getStylesheets().add(getClass().getResource("../vistas/application.css").toExternalForm());
+			
 			ControladorPrincipal controller2 = fxmlLoader2.<ControladorPrincipal>getController();
 			
 			controller2.setLaberinto(laberinto);
 			controller2.cargaLaberinto();
 			controller2.setPisoActual(0);
 	
-			Scene scene = new Scene(parent2,largo,ancho);
-			scene.getStylesheets().add(getClass().getResource("../vistas/application.css").toExternalForm());
-			
+
 			Stage primaryStage = (Stage) mainPane.getScene().getWindow();
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Ultimate Videogame PathFinder Extreme 3000");
