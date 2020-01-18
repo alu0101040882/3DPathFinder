@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<BorderPane fx:id="mainPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="pathfinder.controladores.UsageController">
+   <center>
+      <AnchorPane prefHeight="400.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="WHITE" layoutX="61.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usage">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="60.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press RIGHT click on the grid to add an OBSTACLE and press LEFT click to delete it" wrappingWidth="380.576171875" />
+            <Text fill="WHITE" layoutX="60.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add the start by pressing RIGHT click + 'S' and add the end by pressing RIGHT click + 'E'. You can also select both off them in the right menu" wrappingWidth="380.576171875" />
+            <Text fill="WHITE" layoutX="60.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose an algorithm and press the start button to start the simulation. You must clear the path before starting a new simulation." wrappingWidth="380.576171875" />
+            <Button layoutX="203.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="26.0" prefWidth="95.0" text="Ok" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

@@ -56,7 +56,7 @@ public class ControladorPrincipal {
 	public ChoiceBox<String> choiceAlgortimo;
 	public TextField fStart, cStart, rStart, fEnd, cEnd, rEnd;
 
-	private char teclaInicio = 'S', teclaObjetivo = 'O';
+	private char teclaInicio = 'S', teclaObjetivo = 'E';
 
 	private boolean inicio, objetivo;
 	Timeline temporizador2, temporizador1;
@@ -602,6 +602,23 @@ public class ControladorPrincipal {
 
 		waitTimeText.setText(waitTime + "");
 
+	}
+	
+	public void handleUsage() throws IOException {
+		FXMLLoader fxmlLoader1 = new FXMLLoader(getClass().getResource("../vistas/UsageScene.fxml"));
+
+		Parent parent1 = (Parent) fxmlLoader1.load();
+		UsageController controller1 = fxmlLoader1.<UsageController>getController();
+
+		Scene scene1 = new Scene(parent1);
+		scene1.getStylesheets().add(getClass().getResource("../vistas/application.css").toExternalForm());
+
+		Stage stage = new Stage();
+		stage.setScene(scene1);
+		stage.setResizable(false);
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.setTitle("Usage");
+		stage.showAndWait();
 	}
 
 	public void handleUp() {

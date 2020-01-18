@@ -118,6 +118,11 @@
                   <MenuItem mnemonicParsing="false" onAction="#handleClose" text="Close" />
                </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#handleUsage" text="Usage" />
+               </items>
+            </Menu>
         </menus>
       </MenuBar>
    </top>
