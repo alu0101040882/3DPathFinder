@@ -16,7 +16,7 @@
                   <Font name="System Bold" size="28.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="60.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press RIGHT click on the grid to add an OBSTACLE and press LEFT click to delete it" wrappingWidth="380.576171875" />
+            <Text fill="WHITE" layoutX="60.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press LEFT click on the grid to add an OBSTACLE and press RIGHT click to delete it" wrappingWidth="380.576171875" />
             <Text fill="WHITE" layoutX="60.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add the start by pressing RIGHT click + 'S' and add the end by pressing RIGHT click + 'E'. You can also select both of them in the right menu" wrappingWidth="380.576171875" />
             <Text fill="WHITE" layoutX="60.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose an algorithm and press the start button to start the simulation. You must clear the path before starting a new simulation." wrappingWidth="380.576171875" />
             <Button layoutX="203.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="26.0" prefWidth="95.0" text="Ok" />
